@@ -1,9 +1,8 @@
-let backgroundColours= ["#D67681","#8A1C25", "#262640", "#8C3744", "#103D78","#4085BD", "#30522A", "#BAD5E6", "#FA562D", "#C2344C", "#628526", "#D1C85E", "#961E28"];
+let backgroundColours= ["#D67681","#8A1C25", "#262640", "#8C3744", "#103D78","#4085BD", "#30522A", "#BAD5E6", "#FA562D", "#C2344C", "#628526", "#D1C85E", "#961E28", "#E61D25"];
 let geometryColour= "#E8A725";
 
 
 function setup() {
-  
   createCanvas(windowWidth, windowHeight);
   noLoop();
 }
@@ -61,14 +60,30 @@ function drawSquare(x,y,side) {
 }
 
 function draw() {
-  background(220);
-  drawSquare (0,0,50);
+  let newOriginX= windowWidth/2;
+  let newOriginY= windowHeight/2;
+  let side= 50;
+  let squareNumberX= ceil(newOriginX/side);
+  let squareNumberY= ceil(newOriginY/side); //ceil per rendere numero intero
 
-  for (let i=0; i<20; i++) {
-    for (let j= 0; j<20; j++){
-      let side= 50;
-      drawSquare(side*i, side*j,side);
+  clear(); // Pulisco il canvas prima di ridisegnare
+
+  //faccio 4 cicli for per riempire lo schermo
+  //partendo dall'origine al centro
+  for (let i=0; i<squareNumberX; i++) {
+    for (let j= 0; j<squareNumberY; j++){
+      drawSquare(newOriginX+i*side, newOriginY+j*side,side);//ciclo in basso a dx
+      drawSquare(newOriginX-i*side-side, newOriginY+j*side,side);//ciclo in basso a sx
+      drawSquare(newOriginX-i*side-side, newOriginY-j*side-side,side);//ciclo in alto a sx
+      drawSquare(newOriginX+i*side, newOriginY-j*side-side,side);//ciclo in alto a dx
+
     }
+  }
+
+//ogni volta che ridimensiono la pagina si aggiorna in automatico
+function windowResized() {
+  resizeCanvas(windowWidth, windowHeight); //ogni volta che ridimensiono la pagina
+  redraw(); // Ridisegna il canvas
   }
 }
 
